@@ -11,7 +11,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
       <div className='flex items-center h-16 px-4'>
         <div>This will be a store switcher</div>
       </div>
-      <MainNav />
+      <MainNav className='mx-6'/>
       <div className='ml-auto flex items-center space-x-4'>
         <UserButton afterSignOutUrl="/"/>
       </div>
