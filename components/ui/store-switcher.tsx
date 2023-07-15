@@ -22,7 +22,7 @@ export default function StoreSwitcher({
   const storeModal = useStoreModal();
   const params = useParams();
   const router = useRouter();
-
+  const a = []
 
   const formattedItems = items.map((item) => ({
     label: item.name,
@@ -40,5 +40,7 @@ export default function StoreSwitcher({
     router.push(`/${store.value}`)
   }  
 
-  return <div>Store Switcher</div>;
+  return <div>
+    <div>Store Switcher</div>
+  </div>;
 }
