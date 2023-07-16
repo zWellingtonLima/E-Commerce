@@ -1,11 +1,13 @@
 "use client";
 
 import { Store } from "@prisma/client";
-
-import { PopoverTrigger } from "@/components/ui/popover";
-import { useStoreModal } from "@/hooks/use-store-modal";
-import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { Store as StoreIcon } from "lucide-react";
+
+import { Popover, PopoverTrigger } from "@/components/ui/popover";
+import { useStoreModal } from "@/hooks/use-store-modal";
+import { Button } from "@/components/ui/button";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
@@ -22,7 +24,6 @@ export default function StoreSwitcher({
   const storeModal = useStoreModal();
   const params = useParams();
   const router = useRouter();
-  const a = []
 
   const formattedItems = items.map((item) => ({
     label: item.name,
@@ -40,7 +41,13 @@ export default function StoreSwitcher({
     router.push(`/${store.value}`)
   }  
 
-  return <div>
-    <div>Store Switcher</div>
-  </div>;
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button>
+          <StoreIcon></StoreIcon>
+        </Button>
+      </PopoverTrigger>
+    </Popover>
+  )
 }
