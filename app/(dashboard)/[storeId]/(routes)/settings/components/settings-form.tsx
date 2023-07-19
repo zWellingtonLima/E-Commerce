@@ -24,6 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 import AlertModal from "@/components/modals/alert-modal";
 import ApiAlert from "@/components/ui/api-alert";
+import { useOrigin } from "@/hooks/use-origin";
 
 interface SettingsFormProps {
   initialData: Store;
@@ -36,6 +37,7 @@ const formSchema = z.object({
 type SettingsFormValues = z.infer<typeof formSchema>;
 
 const SettingsForm: FC<SettingsFormProps> = ({ initialData }) => {
+  const origin = useOrigin();
   const params = useParams();
   const router = useRouter();
 
