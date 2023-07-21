@@ -38,7 +38,6 @@ interface BillboardFormProps {
 }
 
 const BillboardForm: FC<BillboardFormProps> = ({ initialData }) => {
-  const origin = useOrigin();
   const params = useParams();
   const router = useRouter();
 
@@ -70,6 +69,7 @@ const BillboardForm: FC<BillboardFormProps> = ({ initialData }) => {
       }
 
       router.refresh();
+      router.push(`/${params.storeId}/billboards`)
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong");
