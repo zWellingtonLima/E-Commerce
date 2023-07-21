@@ -8,9 +8,10 @@ import { FC } from "react";
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
+import { BillboardColumn } from "./columns";
 
 interface BillboardClientProps {
-  data: Billboard[];
+  data: BillboardColumn[];
 }
 
 const BillboardClient: FC<BillboardClientProps> = ({ data }) => {
