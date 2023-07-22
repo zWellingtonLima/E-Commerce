@@ -12,12 +12,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+import { toast } from "react-hot-toast";
 
 interface CellActionProps {
   data: BillboardColumn;
 }
 
 const CellAction: FC<CellActionProps> = ({ data }) => {
+  const onCopy = (id: string) => {
+    navigator.clipboard.writeText(id)
+    toast.success("Billboard Id copied to the clipboard.")
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,7 +37,7 @@ const CellAction: FC<CellActionProps> = ({ data }) => {
           Actions
         </DropdownMenuLabel>
         <DropdownMenuItem>
-          <Copy className='w-4 h-4 mr-2'/>
+          <Copy className='w-4 h-4 mr-2' onClick={() => onCopy(data.id)}/>
           Copy Id
         </DropdownMenuItem>
         <DropdownMenuItem>
