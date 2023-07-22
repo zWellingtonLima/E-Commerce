@@ -2,6 +2,8 @@
 
 import { FC } from "react";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 import { BillboardColumn } from "./columns";
 import { Button } from "@/components/ui/button";
@@ -12,13 +14,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { toast } from "react-hot-toast";
 
 interface CellActionProps {
   data: BillboardColumn;
 }
 
 const CellAction: FC<CellActionProps> = ({ data }) => {
+  const router = useRouter();
+  const params = useParams();
+
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id)
     toast.success("Billboard Id copied to the clipboard.")
@@ -36,12 +40,12 @@ const CellAction: FC<CellActionProps> = ({ data }) => {
         <DropdownMenuLabel>
           Actions
         </DropdownMenuLabel>
-        <DropdownMenuItem>
-          <Copy className='w-4 h-4 mr-2' onClick={() => onCopy(data.id)}/>
+        <DropdownMenuItem onClick={() => onCopy(data.id)}>
+          <Copy className='w-4 h-4 mr-2' />
           Copy Id
         </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Edit className='w-4 h-4 mr-2'/>
+        <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/billboards/${data.id}`)}>
+          <Edit className='w-4 h-4 mr-2' />
           Update
         </DropdownMenuItem>
         <DropdownMenuItem>
