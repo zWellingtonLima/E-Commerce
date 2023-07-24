@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { Category } from "@prisma/client";
+import { Billboard, Category } from "@prisma/client";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Trash } from "lucide-react";
@@ -23,6 +23,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import AlertModal from "@/components/modals/alert-modal";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -33,9 +40,10 @@ type CategoryFormValues = z.infer<typeof formSchema>;
 
 interface CategoryFormProps {
   initialData: Category | null;
+  billboards: Billboard[];
 }
 
-const CategoryForm: FC<CategoryFormProps> = ({ initialData }) => {
+const CategoryForm: FC<CategoryFormProps> = ({ initialData, billboards }) => {
   const params = useParams();
   const router = useRouter();
 
@@ -44,9 +52,7 @@ const CategoryForm: FC<CategoryFormProps> = ({ initialData }) => {
 
   const title = initialData ? "Edit category" : "Create category";
   const description = initialData ? "Edit a category" : "Add a new category";
-  const toastMessage = initialData
-    ? "Category updated."
-    : "Category created.";
+  const toastMessage = initialData ? "Category updated." : "Category created.";
   const action = initialData ? "Save changes" : "Create";
 
   const form = useForm<CategoryFormValues>({
@@ -61,13 +67,16 @@ const CategoryForm: FC<CategoryFormProps> = ({ initialData }) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data);
+        await axios.patch(
+          `/api/${params.storeId}/categories/${params.billboardId}`,
+          data
+        );
       } else {
-        await axios.post(`/api/${params.storeId}/billboards`, data);
+        await axios.post(`/api/${params.categoryId}/categories`, data);
       }
 
       router.refresh();
-      router.push(`/${params.storeId}/billboards`)
+      router.push(`/${params.storeId}/categories`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong");
@@ -79,12 +88,16 @@ const CategoryForm: FC<CategoryFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
+      await axios.delete(
+        `/api/${params.storeId}/categories/${params.categoryId}`
+      );
       router.refresh();
-      router.push(`/${params.storeId}/billboards`);
-      toast.success("Billboard deleted.");
+      router.push(`/${params.storeId}/categories`);
+      toast.success("Category deleted.");
     } catch (error) {
-      toast.error("Make sure you removed all categories using this billboards first.");
+      toast.error(
+        "Make sure you removed all products using this category first."
+      );
     } finally {
       setLoading(false);
     }
@@ -131,6 +144,38 @@ const CategoryForm: FC<CategoryFormProps> = ({ initialData }) => {
                       {...field}
                     />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="billboardId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Billboard</FormLabel>
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select a billboard"
+                        ></SelectValue>
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {billboards.map((billboard) => (
+                        <SelectItem key={billboard.id} value={billboard.id}>
+                          {billboard.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
