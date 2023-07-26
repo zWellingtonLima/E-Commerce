@@ -40,9 +40,7 @@ const CellAction: FC<CellActionProps> = ({ data }) => {
       router.refresh();
       toast.success("Product deleted.");
     } catch (error) {
-      toast.error(
-        "Make sure you removed all categories using this product first."
-      );
+      toast.error("Something went wrong.");
     } finally {
       setLoading(false);
     }
@@ -50,7 +48,7 @@ const CellAction: FC<CellActionProps> = ({ data }) => {
 
   return (
     <>
-      <AlertModal 
+      <AlertModal
         isOpen={open}
         loading={loading}
         onClose={() => setOpen(false)}
