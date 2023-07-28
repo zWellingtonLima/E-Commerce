@@ -5,7 +5,7 @@ import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
-import { BillboardColumn } from "./columns";
+import { OrderColumn } from "./columns";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -18,7 +18,7 @@ import axios from "axios";
 import AlertModal from "@/components/modals/alert-modal";
 
 interface CellActionProps {
-  data: BillboardColumn;
+  data: OrderColumn;
 }
 
 const CellAction: FC<CellActionProps> = ({ data }) => {
@@ -50,7 +50,7 @@ const CellAction: FC<CellActionProps> = ({ data }) => {
 
   return (
     <>
-      <AlertModal 
+      <AlertModal
         isOpen={open}
         loading={loading}
         onClose={() => setOpen(false)}

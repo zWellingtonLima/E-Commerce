@@ -1,49 +1,31 @@
 "use client";
 
-import { Plus } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
 import { FC } from "react";
 
 import Heading from "@/components/ui/heading";
 import ApiList from "@/components/ui/api-list";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { BillboardColumn, columns } from "./columns";
+import { OrderColumn, columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 
-interface BillboardClientProps {
-  data: BillboardColumn[];
+interface OrderClientProps {
+  data: OrderColumn[];
 }
 
-const BillboardClient: FC<BillboardClientProps> = ({ data }) => {
-  const router = useRouter();
-  const params = useParams();
-
+const OrderClient: FC<OrderClientProps> = ({ data }) => {
   return (
     <>
-      <div className="flex items-center justify-between">
-        <Heading
-          title={`Billboards (${data.length})`}
-          description="Manage billboards for your store"
-        />
-        <Button
-          onClick={() => router.push(`/${params.storeId}/billboards/new`)}
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          Add New
-        </Button>
-      </div>
-      <Separator />
-      <DataTable 
-        columns={columns}
-        data={data}
-        searchKey="label"
+      <Heading
+        title={`Orders (${data.length})`}
+        description="Manage orders for your store"
       />
-      <Heading title="API" description="API calls for Billboards"/>
       <Separator />
-      <ApiList entityName="billboards" entityIdName="billboardId"/>
+      <DataTable columns={columns} data={data} searchKey="label" />
+      <Heading title="API" description="API calls for Orders" />
+      <Separator />
+      <ApiList entityName="orders" entityIdName="orderId" />
     </>
   );
 };
 
-export default BillboardClient;
+export default OrderClient;
